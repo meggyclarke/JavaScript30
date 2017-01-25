@@ -59,6 +59,23 @@
 
 <script>
 
+     function playSound(e){
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        if(!audio) return; //this means if no sound to play it exits the function
+        audio.currentTime = 0; //this is so you can hit the key over and over without delay
+        audio.play();
+        key.classList.add('playing');
+    };
+
+    function removeTransition(e){
+        if (e.propertyName !== 'transform') return; //skip it
+        this.classList.remove('playing');
+    }
+
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+    window.addEventListener('keydown', playSound);
 </script>
 
 
